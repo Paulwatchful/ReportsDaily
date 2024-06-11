@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emails</title>
+    <style>
+        .pdf-container {
+            width: 100%;
+            height: 800px;
+            border: 1px solid #000;
+        }
+    </style>
 </head>
 <body>
     <h1>Emails</h1>
@@ -18,7 +25,10 @@
                     <ul>
                         {% for attachment in email.attachments %}
                             <li>
-                                <a href="{% url 'download_attachment' email.id attachment.id %}">{{ attachment.name }}</a>
+                                {% if attachment.contentType == "application/pdf" %}
+                                    <a href="{% url 'view_pdf' email.id attachment.id %}" target="_blank">{{ attachment.name }}</a>
+                                {% endif %}
+                                <a href="{% url 'download_attachment' email.id attachment.id %}">Download</a>
                                 <a href="{% url 'download_attachment' email.id attachment.id %}?convert=true">Convert to Word</a>
                             </li>
                         {% endfor %}
