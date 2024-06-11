@@ -14,6 +14,16 @@
                 <strong>From:</strong> {{ email.from.emailAddress.name }}<br>
                 <strong>Received:</strong> {{ email.receivedDateTime }}<br>
                 <strong>Body:</strong> {{ email.bodyPreview }}
+                {% if email.attachments %}
+                    <ul>
+                        {% for attachment in email.attachments %}
+                            <li>
+                                <a href="{% url 'download_attachment' email.id attachment.id %}">{{ attachment.name }}</a>
+                                <a href="{% url 'download_attachment' email.id attachment.id %}?convert=true">Convert to Word</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
