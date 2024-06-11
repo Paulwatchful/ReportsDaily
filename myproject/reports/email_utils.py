@@ -1,3 +1,4 @@
+# reports/email_utils.py
 import msal
 import requests
 import logging
@@ -13,11 +14,7 @@ TENANT_ID = '6450702d-c26c-4ab3-8d3d-acfe95670510'
 AUTHORITY_URL = f'https://login.microsoftonline.com/{TENANT_ID}'
 SCOPES = ["https://graph.microsoft.com/.default"]
 
-
 def acquire_token():
-    """
-    Acquire token via MSAL using client credentials flow
-    """
     app = msal.ConfidentialClientApplication(
         client_id=CLIENT_ID,
         client_credential=CLIENT_SECRET,
@@ -30,27 +27,7 @@ def acquire_token():
         logger.error("Failed to acquire token: %s", result.get("error_description"))
         raise Exception("Failed to acquire token")
 
-
-def get_users_info(token):
-    """
-    Fetch users info using Microsoft Graph API
-    """
-    graph_url = "https://graph.microsoft.com/v1.0/users"
-    headers = {
-        'Authorization': f'Bearer {token}'
-    }
-    response = requests.get(graph_url, headers=headers)
-    if response.status_code == 200:
-        return response.json()
-    else:
-        logger.error("API call failed: %s", response.text)
-        raise Exception("API call failed")
-
-
 def fetch_shared_mailbox_emails(token, shared_mailbox_email):
-    """
-    Fetch emails from the shared mailbox using Microsoft Graph API
-    """
     graph_url = f"https://graph.microsoft.com/v1.0/users/{shared_mailbox_email}/mailFolders/inbox/messages"
     headers = {
         'Authorization': f'Bearer {token}'
@@ -64,24 +41,3 @@ def fetch_shared_mailbox_emails(token, shared_mailbox_email):
     else:
         logger.error("API call failed: %s", response.text)
         raise Exception("API call failed")
-
-
-if __name__ == "__main__":
-    try:
-        token = acquire_token()
-        print("Access Token:")
-        print(token)
-
-        # Fetch and print user info (for verification)
-        users_info = get_users_info(token)
-        print("Users Info:")
-        print(users_info)
-
-        # Fetch and print emails from the shared mailbox
-        shared_mailbox_email = "dailyreports@watchful.ltd"
-        emails = fetch_shared_mailbox_emails(token, shared_mailbox_email)
-        print("Emails from Shared Mailbox:")
-        print(emails)
-    except Exception as e:
-        logger.error(f"An error occurred: {e}")
-

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emails</title>
+</head>
+<body>
+    <h1>Emails</h1>
+    <ul>
+        {% for email in emails %}
+            <li>
+                <strong>Subject:</strong> {{ email.subject }}<br>
+                <strong>From:</strong> {{ email.from.emailAddress.name }}<br>
+                <strong>Received:</strong> {{ email.receivedDateTime }}<br>
+                <strong>Body:</strong> {{ email.bodyPreview }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
