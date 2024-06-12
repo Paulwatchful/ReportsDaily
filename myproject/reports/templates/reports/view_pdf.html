@@ -10,7 +10,7 @@
         const url = "{{ pdf_url }}";
         const pdfContainer = document.getElementById('pdf-container');
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.7.570/pdf.worker.min.js';
-        const loadingTask = pdfjsLib.getDocument(url);
+        const loadingTask = pdfjsLib.getDocument(decodeURIComponent(url));
         loadingTask.promise.then(pdf => {
             pdf.getPage(1).then(page => {
                 const scale = 1.5;
@@ -32,3 +32,4 @@
         });
     </script>
 {% endblock %}
+
