@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reports Index</title>
-</head>
-<body>
-    <h1>Welcome to the Reports Index Page.</h1>
-    <p><a href="{% url 'email_list' %}">Go to Emails</a></p>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Reports Index{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to the Reports Index Page</h1>
+        <p class="lead">This is the main index page for accessing your reports and emails.</p>
+        <hr class="my-4">
+        <p>Click the button below to view the list of emails.</p>
+        <a class="btn btn-primary btn-lg" href="{% url 'email_list' %}" role="button">Go to Emails</a>
+    </div>
+{% endblock %}

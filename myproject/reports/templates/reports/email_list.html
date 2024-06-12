@@ -1,35 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emails</title>
-    <style>
-        .pdf-container {
-            width: 100%;
-            height: 800px;
-            border: 1px solid #000;
-        }
-    </style>
-</head>
-<body>
-    <h1>Emails</h1>
-    <ul>
+{% extends 'base.html' %}
+
+{% block title %}Emails{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Emails</h1>
+    <ul class="list-group">
         {% for email in emails %}
-            <li>
-                <strong>Subject:</strong> {{ email.subject }}<br>
-                <strong>From:</strong> {{ email.from.emailAddress.name }}<br>
-                <strong>Received:</strong> {{ email.receivedDateTime }}<br>
-                <strong>Body:</strong> {{ email.bodyPreview }}
+            <li class="list-group-item">
+                <h5 class="mb-1"><strong>Subject:</strong> {{ email.subject }}</h5>
+                <p class="mb-1"><strong>From:</strong> {{ email.from.emailAddress.name }}</p>
+                <p class="mb-1"><strong>Received:</strong> {{ email.receivedDateTime }}</p>
+                <p class="mb-1"><strong>Body:</strong> {{ email.bodyPreview }}</p>
                 {% if email.attachments %}
-                    <ul>
+                    <ul class="list-group mt-2">
                         {% for attachment in email.attachments %}
-                            <li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
                                 {% if attachment.contentType == "application/pdf" %}
                                     <a href="{% url 'view_pdf' email.id attachment.id %}" target="_blank">{{ attachment.name }}</a>
                                 {% endif %}
-                                <a href="{% url 'download_attachment' email.id attachment.id %}">Download</a>
-                                <a href="{% url 'download_attachment' email.id attachment.id %}?convert=true">Convert to Word</a>
+                                <div>
+                                    <a class="btn btn-sm btn-primary" href="{% url 'download_attachment' email.id attachment.id %}">Download</a>
+                                    <a class="btn btn-sm btn-secondary" href="{% url 'download_attachment' email.id attachment.id %}?convert=true">Convert to Word</a>
+                                </div>
                             </li>
                         {% endfor %}
                     </ul>
@@ -37,5 +29,4 @@
             </li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock %}
