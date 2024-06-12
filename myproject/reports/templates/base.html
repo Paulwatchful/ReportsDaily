@@ -18,6 +18,34 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'index' %}">Daily Reports</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'email_list' %}">Emails</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'project_list' %}">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'report_list' %}">Reports</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'email_template_create' %}">Add Email Template</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'recipient_create' %}">Add Recipient</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'report_create' %}">Add Report</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div class="container mt-5">
         {% block content %}{% endblock %}
     </div>

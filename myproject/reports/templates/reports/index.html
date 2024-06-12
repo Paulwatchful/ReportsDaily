@@ -7,7 +7,12 @@
         <h1 class="display-4">Welcome to the Daily Reports</h1>
         <p class="lead">Daily Checking and Email of Reports</p>
         <hr class="my-4">
-        <p>Click the button below to view the list of emails.</p>
+        <p>Click the buttons below to navigate through the application.</p>
         <a class="btn btn-primary btn-lg" href="{% url 'email_list' %}" role="button">Go to Emails</a>
+        <a class="btn btn-secondary btn-lg" href="{% url 'project_list' %}" role="button">Manage Projects</a>
+        <a class="btn btn-secondary btn-lg" href="{% url 'email_template_create' %}" role="button">Add Email Template</a>
+        <a class="btn btn-secondary btn-lg" href="{% url 'recipient_create' %}" role="button">Add Recipient</a>
+        <a class="btn btn-secondary btn-lg" href="{% url 'report_list' %}" role="button">View Reports</a>
+        <a class="btn btn-secondary btn-lg" href="{% url 'report_create' %}" role="button">Add Report</a>
     </div>
 {% endblock %}
