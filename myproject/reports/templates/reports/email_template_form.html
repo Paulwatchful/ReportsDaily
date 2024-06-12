@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Email Template{% endblock %}
+
+{% block content %}
+<h1>Add Email Template</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+{% endblock %}
