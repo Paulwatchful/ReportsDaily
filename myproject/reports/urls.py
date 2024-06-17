@@ -12,6 +12,7 @@ urlpatterns = [
     path('emails/', views.email_list, name='email_list'),
     path('emails/download/<str:message_id>/<str:attachment_id>/', views.download_attachment_view, name='download_attachment'),
     path('emails/view/<str:message_id>/<str:attachment_id>/', views.view_pdf, name='view_pdf'),
+    path('emails/forward/<str:message_id>/<str:attachment_id>/', views.forward_email, name='forward_email'),
     path('serve_pdf/<str:filename>/', views.serve_pdf, name='serve_pdf'),
     path('', views.index, name='index'),
 ]

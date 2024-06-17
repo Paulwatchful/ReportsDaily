@@ -1,5 +1,6 @@
 from django import forms
 from .models import Project, EmailTemplate, Recipient, Report
+from .email_utils import acquire_token, fetch_shared_mailbox_emails
 
 class ProjectForm(forms.ModelForm):
     class Meta:
@@ -29,11 +30,18 @@ class RecipientForm(forms.ModelForm):
         }
 
 class ReportForm(forms.ModelForm):
+    email = forms.ChoiceField(choices=[], widget=forms.Select(attrs={'class': 'form-control'}))
+    project = forms.ModelChoiceField(queryset=Project.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
+
     class Meta:
         model = Report
-        fields = ['title', 'content', 'project']
-        widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'content': forms.Textarea(attrs={'class': 'form-control'}),
-            'project': forms.Select(attrs={'class': 'form-control'}),
-        }
+        fields = ['title', 'content', 'project', 'email']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Fetch emails for the email field choices
+        token = acquire_token()
+        shared_mailbox_email = "dailyreports@watchful.ltd"
+        emails = fetch_shared_mailbox_emails(token, shared_mailbox_email)['value']
+        email_choices = [(email['id'], email['subject']) for email in emails if email['subject'].startswith("Daily Progress Report")]
+        self.fields['email'].choices = email_choices
