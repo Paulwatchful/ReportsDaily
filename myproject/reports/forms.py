@@ -45,3 +45,13 @@ class ReportForm(forms.ModelForm):
         emails = fetch_shared_mailbox_emails(token, shared_mailbox_email)['value']
         email_choices = [(email['id'], email['subject']) for email in emails if email['subject'].startswith("Daily Progress Report")]
         self.fields['email'].choices = email_choices
+class ForwardEmailForm(forms.Form):
+    subject = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    body = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
+    recipients = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Comma-separated emails'}))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['subject'].label = "Email Subject"
+        self.fields['body'].label = "Email Body"
+        self.fields['recipients'].label = "Recipients"
