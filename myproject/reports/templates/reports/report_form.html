@@ -24,7 +24,7 @@
         <label for="id_email">Email</label>
         <select name="email" id="id_email" class="form-control">
           {% for email_id, email_subject in emails %}
-            <option value="{{ email_id }}">{{ email_subject }}</option>
+            <option value="{{ email_id }}" {% if form.email.value == email_id %}selected{% endif %}>{{ email_subject }}</option>
           {% endfor %}
         </select>
       </div>
