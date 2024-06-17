@@ -3,10 +3,23 @@
 {% block title %}Forward Email{% endblock %}
 
 {% block content %}
-<h1>Forward Email</h1>
-<form method="post" class="needs-validation" novalidate>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Forward Email</button>
-</form>
+  <div class="container mt-5">
+    <h2>Forward Email</h2>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="subject">Subject</label>
+        {{ form.subject }}
+      </div>
+      <div class="form-group">
+        <label for="body">Body</label>
+        {{ form.body }}
+      </div>
+      <div class="form-group">
+        <label for="recipients">Recipients</label>
+        {{ form.recipients }}
+      </div>
+      <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+  </div>
 {% endblock %}

@@ -17,20 +17,13 @@ class RecipientForm(forms.ModelForm):
         fields = ['project', 'email']
 
 class ReportForm(forms.ModelForm):
-    email = forms.CharField(max_length=255, widget=forms.HiddenInput())
-    attachment_id = forms.CharField(max_length=255, widget=forms.HiddenInput())  # Add this field
+    email = forms.CharField(required=True)  # Ensure this is required to capture email
 
     class Meta:
         model = Report
-        fields = ['title', 'content', 'project', 'email', 'attachment_id']  # Include attachment_id
-
-class ForwardEmailForm(forms.Form):
-    subject = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    body = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
-    recipients = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Comma-separated emails'}))
+        fields = ['project', 'email', 'content']
 
     def __init__(self, *args, **kwargs):
+        email_choices = kwargs.pop('email_choices', [])
         super().__init__(*args, **kwargs)
-        self.fields['subject'].label = "Email Subject"
-        self.fields['body'].label = "Email Body"
-        self.fields['recipients'].label = "Recipients"
+        self.fields['email'].choices = email_choices
