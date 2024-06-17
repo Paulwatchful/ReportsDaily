@@ -3,25 +3,25 @@
 {% block title %}Emails{% endblock %}
 
 {% block content %}
-    <h1 class="mb-4">Daily Reports</h1>
+<h1>Emails</h1>
+
+{% if emails %}
     <ul class="list-group">
         {% for email in emails %}
             <li class="list-group-item">
-                <h5 class="mb-1"><strong>Subject:</strong> {{ email.subject }}</h5>
-                <p class="mb-1"><strong>From:</strong> {{ email.from.emailAddress.name }}</p>
-                <p class="mb-1"><strong>Received:</strong> {{ email.receivedDateTime }}</p>
-                <p class="mb-1"><strong>Body:</strong> {{ email.bodyPreview }}</p>
+                <strong>Subject:</strong> {{ email.subject }}<br>
+                <strong>From:</strong> {{ email.from.emailAddress.name }}<br>
+                <strong>Received:</strong> {{ email.receivedDateTime }}<br>
+                <strong>Body:</strong> {{ email.bodyPreview }}
                 {% if email.attachments %}
-                    <ul class="list-group mt-2">
+                    <ul class="mt-2">
                         {% for attachment in email.attachments %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <li>
                                 {% if attachment.contentType == "application/pdf" %}
-                                    <a href="{% url 'view_pdf' email.id attachment.id %}" target="_blank">{{ attachment.name }}</a>
+                                    <a class="btn btn-primary btn-sm" href="{% url 'view_pdf' email.id attachment.id %}" target="_blank">View PDF</a>
                                 {% endif %}
-                                <div>
-                                    <a class="btn btn-sm btn-primary" href="{% url 'download_attachment' email.id attachment.id %}">Download</a>
-                                    <a class="btn btn-sm btn-secondary" href="{% url 'download_attachment' email.id attachment.id %}?convert=true">Convert to Word</a>
-                                </div>
+                                <a class="btn btn-secondary btn-sm" href="{% url 'download_attachment' email.id attachment.id %}">Download</a>
+                                <a class="btn btn-success btn-sm" href="{% url 'download_attachment' email.id attachment.id %}?convert=true">Convert to Word</a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -29,4 +29,7 @@
             </li>
         {% endfor %}
     </ul>
+{% else %}
+    <p>No emails found.</p>
+{% endif %}
 {% endblock %}
