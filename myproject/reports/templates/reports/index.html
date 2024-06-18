@@ -1,12 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reports Index</title>
-</head>
-<body>
-    <h1>Welcome to the Reports Index Page.</h1>
-    <p><a href="{% url 'email_list' %}">Go to Emails</a></p>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Reports Index{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to the Daily Reports</h1>
+        <p class="lead">Daily Checking and Email of Reports</p>
+        <hr class="my-4">
+        <p>Click the buttons below to navigate through the application.</p>
+        <a class="btn btn-primary btn-lg" href="{% url 'email_list' %}" role="button">Go to Emails</a>
+        <a class="btn btn-secondary btn-lg" href="{% url 'project_list' %}" role="button">Manage Projects</a>
+        <a class="btn btn-secondary btn-lg" href="{% url 'email_template_create' %}" role="button">Add Email Template</a>
+        <a class="btn btn-secondary btn-lg" href="{% url 'recipient_create' %}" role="button">Add Recipient</a>
+        <a class="btn btn-secondary btn-lg" href="{% url 'report_list' %}" role="button">View Reports</a>
+        <a class="btn btn-secondary btn-lg" href="{% url 'report_create' %}" role="button">Add Report</a>
+    </div>
+{% endblock %}
