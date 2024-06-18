@@ -15,7 +15,6 @@ COPY . /app/
 
 # Collect static files
 RUN python /app/myproject/manage.py collectstatic --noinput
-RUN find /app/static -type f -exec sh -c 'iconv -f ISO-8859-1 -t UTF-8 "{}" > "{}.utf8" && mv "{}.utf8" "{}"' \;
 
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
