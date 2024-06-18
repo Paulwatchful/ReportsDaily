@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+<h1>Projects</h1>
+<ul>
+    {% for project in projects %}
+        <li>{{ project.name }}
+            <ul>
+                <li>Email Templates:
+                    <ul>
+                        {% for template in project.email_templates.all %}
+                            <li>{{ template.subject }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li>Recipients:
+                    <ul>
+                        {% for recipient in project.recipients.all %}
+                            <li>{{ recipient.email }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'project_create' %}">Add Project</a>
+<a href="{% url 'email_template_create' %}">Add Email Template</a>
+<a href="{% url 'recipient_create' %}">Add Recipient</a>
+{% endblock %}
