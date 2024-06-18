@@ -139,7 +139,21 @@ def project_create(request):
         form = ProjectForm()
     return render(request, 'reports/project_form.html', {'form': form})
 
+def project_edit(request, id):
+    project = get_object_or_404(Project, id=id)
+    if request.method == 'POST':
+        form = ProjectForm(request.POST, instance=project)
+        if form.is_valid():
+            form.save()
+            return redirect('project_list')
+    else:
+        form = ProjectForm(instance=project)
+    return render(request, 'reports/project_form.html', {'form': form})
 
+def project_delete(request, id):
+    project = get_object_or_404(Project, id=id)
+    project.delete()
+    return redirect('project_list')
 def email_template_create(request):
     if request.method == 'POST':
         form = EmailTemplateForm(request.POST)
