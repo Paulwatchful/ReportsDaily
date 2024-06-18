@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
-{% block title %}Add Recipient{% endblock %}
+{% block title %}{{ form.instance.pk|yesno:"Edit,Add" }} Recipient{% endblock %}
 
 {% block content %}
-<h1>Add Recipient</h1>
+<h1>{{ form.instance.pk|yesno:"Edit,Add" }} Recipient</h1>
 <form method="post" class="needs-validation" novalidate>
     {% csrf_token %}
     {{ form.as_p }}

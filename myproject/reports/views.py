@@ -150,19 +150,21 @@ def project_edit(request, id):
         form = ProjectForm(instance=project)
     return render(request, 'reports/project_form.html', {'form': form})
 
-def project_delete(request, id):
-    project = get_object_or_404(Project, id=id)
-    project.delete()
-    return redirect('project_list')
-def email_template_create(request):
+def project_edit(request, pk):
+    project = get_object_or_404(Project, pk=pk)
     if request.method == 'POST':
-        form = EmailTemplateForm(request.POST)
+        form = ProjectForm(request.POST, instance=project)
         if form.is_valid():
             form.save()
             return redirect('project_list')
     else:
-        form = EmailTemplateForm()
-    return render(request, 'reports/email_template_form.html', {'form': form})
+        form = ProjectForm(instance=project)
+    return render(request, 'reports/project_form.html', {'form': form})
+
+def project_delete(request, pk):
+    project = get_object_or_404(Project, pk=pk)
+    project.delete()
+    return redirect('project_list')
 
 
 def recipient_create(request):
@@ -316,3 +318,51 @@ def forward_report(request, report_id, project_id):
     except Exception as e:
         logger.error(f"Error forwarding report: {e}")
         return render(request, 'reports/error.html', {'error': str(e)})
+
+
+@login_required
+def email_template_edit(request, pk):
+    template = get_object_or_404(EmailTemplate, pk=pk)
+    if request.method == 'POST':
+        form = EmailTemplateForm(request.POST, instance=template)
+        if form.is_valid():
+            form.save()
+            return redirect('project_list')
+    else:
+        form = EmailTemplateForm(instance=template)
+    return render(request, 'reports/email_template_form.html', {'form': form})
+@login_required
+def recipient_edit(request, pk):
+    recipient = get_object_or_404(Recipient, pk=pk)
+    if request.method == 'POST':
+        form = RecipientForm(request.POST, instance=recipient)
+        if form.is_valid():
+            form.save()
+            return redirect('project_list')
+    else:
+        form = RecipientForm(instance=recipient)
+    return render(request, 'reports/recipient_form.html', {'form': form})
+
+@login_required
+def recipient_add(request):
+    if request.method == 'POST':
+        form = RecipientForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('project_list')
+    else:
+        form = RecipientForm()
+    return render(request, 'reports/recipient_form.html', {'form': form})
+
+
+
+@login_required
+def email_template_add(request):
+    if request.method == 'POST':
+        form = EmailTemplateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('project_list')
+    else:
+        form = EmailTemplateForm()
+    return render(request, 'reports/email_template_form.html', {'form': form})
