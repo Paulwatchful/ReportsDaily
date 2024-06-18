@@ -18,6 +18,7 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body>
+    {% if user.is_authenticated %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="{% url 'index' %}">Daily Reports</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,9 +32,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'project_list' %}">Projects</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'report_list' %}">Reports</a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'email_template_create' %}">Add Email Template</a>
                 </li>
@@ -41,11 +40,18 @@
                     <a class="nav-link" href="{% url 'recipient_create' %}">Add Recipient</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'report_create' %}">Add Report</a>
+                    <a class="nav-link" href="{% url 'report_create' %}">Email Report</a>
+                </li>
+                <li class="nav-item">
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link nav-link" style="padding: 10; border: none; background: none;">Logout</button>
+                    </form>
                 </li>
             </ul>
         </div>
     </nav>
+    {% endif %}
     <div class="container mt-5">
         {% block content %}{% endblock %}
     </div>

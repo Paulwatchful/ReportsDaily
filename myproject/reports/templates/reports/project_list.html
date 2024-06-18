@@ -4,29 +4,35 @@
 
 {% block content %}
 <h1>Projects</h1>
-<ul>
-    {% for project in projects %}
-        <li>{{ project.name }}
-            <ul>
-                <li>Email Templates:
-                    <ul>
+<div class="container mt-5">
+    <div class="row">
+        {% for project in projects %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title">{{ project.name }}</h5>
+                </div>
+                <div class="card-body">
+                    <h6>Email Templates:</h6>
+                    <ul class="list-group mb-3">
                         {% for template in project.email_templates.all %}
-                            <li>{{ template.subject }}</li>
+                        <li class="list-group-item">{{ template.subject }}</li>
                         {% endfor %}
                     </ul>
-                </li>
-                <li>Recipients:
-                    <ul>
+                    <h6>Recipients:</h6>
+                    <ul class="list-group mb-3">
                         {% for recipient in project.recipients.all %}
-                            <li>{{ recipient.email }}</li>
+                        <li class="list-group-item">{{ recipient.email }}</li>
                         {% endfor %}
                     </ul>
-                </li>
-            </ul>
-        </li>
-    {% endfor %}
-</ul>
-<a href="{% url 'project_create' %}">Add Project</a>
-<a href="{% url 'email_template_create' %}">Add Email Template</a>
-<a href="{% url 'recipient_create' %}">Add Recipient</a>
+                    <a href="{% url 'project_edit' project.id %}" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="{% url 'project_delete' project.id %}" class="btn btn-danger btn-sm">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a href="{% url 'project_create' %}" class="btn btn-success">Add Project</a>
+
+</div>
 {% endblock %}

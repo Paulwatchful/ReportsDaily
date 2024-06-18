@@ -8,6 +8,8 @@ from .forms import ProjectForm, EmailTemplateForm, RecipientForm, ReportForm
 from .models import Project, EmailTemplate, Recipient, Report
 from django.core.mail import EmailMessage
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 import tempfile
 import os
 import logging
@@ -29,7 +31,7 @@ def convert_pdf_to_word(pdf_content, docx_path):
     cv.close()
     os.remove(temp_pdf_path)
 
-
+@login_required
 def email_list(request):
     try:
         token = acquire_token()
@@ -137,7 +139,21 @@ def project_create(request):
         form = ProjectForm()
     return render(request, 'reports/project_form.html', {'form': form})
 
+def project_edit(request, id):
+    project = get_object_or_404(Project, id=id)
+    if request.method == 'POST':
+        form = ProjectForm(request.POST, instance=project)
+        if form.is_valid():
+            form.save()
+            return redirect('project_list')
+    else:
+        form = ProjectForm(instance=project)
+    return render(request, 'reports/project_form.html', {'form': form})
 
+def project_delete(request, id):
+    project = get_object_or_404(Project, id=id)
+    project.delete()
+    return redirect('project_list')
 def email_template_create(request):
     if request.method == 'POST':
         form = EmailTemplateForm(request.POST)
@@ -164,7 +180,7 @@ def report_list(request):
     reports = Report.objects.all()
     return render(request, 'reports/report_list.html', {'reports': reports})
 
-
+@login_required
 def report_create(request):
     if request.method == 'POST':
         form = ReportForm(request.POST)
