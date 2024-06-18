@@ -8,6 +8,8 @@ from .forms import ProjectForm, EmailTemplateForm, RecipientForm, ReportForm
 from .models import Project, EmailTemplate, Recipient, Report
 from django.core.mail import EmailMessage
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 import tempfile
 import os
 import logging
@@ -29,7 +31,7 @@ def convert_pdf_to_word(pdf_content, docx_path):
     cv.close()
     os.remove(temp_pdf_path)
 
-
+@login_required
 def email_list(request):
     try:
         token = acquire_token()
@@ -164,7 +166,7 @@ def report_list(request):
     reports = Report.objects.all()
     return render(request, 'reports/report_list.html', {'reports': reports})
 
-
+@login_required
 def report_create(request):
     if request.method == 'POST':
         form = ReportForm(request.POST)
