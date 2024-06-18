@@ -32,9 +32,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'project_list' %}">Projects</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'report_list' %}">Reports</a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'email_template_create' %}">Add Email Template</a>
                 </li>
@@ -42,10 +40,13 @@
                     <a class="nav-link" href="{% url 'recipient_create' %}">Add Recipient</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'report_create' %}">Add Report</a>
+                    <a class="nav-link" href="{% url 'report_create' %}">Email Report</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link nav-link" style="padding: 10; border: none; background: none;">Logout</button>
+                    </form>
                 </li>
             </ul>
         </div>
@@ -56,4 +57,3 @@
     </div>
 </body>
 </html>
-
