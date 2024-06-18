@@ -11,7 +11,7 @@ COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the project files to the working directory
-COPY . /app/
+COPY venv /app/
 
 # Set environment variables for Django
 ENV PYTHONDONTWRITEBYTECODE 1
